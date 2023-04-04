@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Upload new File</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif;
+        background-color: #f0f0f0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .container {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        width: 400px;
+      }
+
+      h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        color: #333;
+      }
+
+      .file-container {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+        margin-bottom: 20px;
+      }
+
+      .file-container input[type="file"] {
+        display: none;
+      }
+
+      .file-btn {
+        background-color: #ccc;
+        color: #333;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        text-align: left;
+        width: 100%;
+      }
+
+      .file-btn:hover {
+        background-color: #bbb;
+      }
+
+      input[type="submit"] {
+        background-color: #007aff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        width: 100%;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #0061d7;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Upload new File</h1>
+      <form method="post" enctype="multipart/form-data">
+        <div class="file-container">
+          <button type="button" class="file-btn">Select File</button>
+          <input
+            type="file"
+            name="file"
+            multiple=""
+            onchange="document.querySelector('.file-btn').innerText = (this.files.length > 1 ? this.files.length + ' files selected' : (this.files.length === 1 ? this.files[0].name : 'Select File'))"
+          />
+        </div>
+        <br />
+        <input type="submit" value="Upload" />
+      </form>
+    </div>
+    <script>
+      document
+        .querySelector(".file-btn")
+        .addEventListener("click", function () {
+          document.querySelector("input[type=file]").click();
+        });
+    </script>
+  </body>
+</html>
