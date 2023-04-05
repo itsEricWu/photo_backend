@@ -38,10 +38,11 @@ def upload_file():
 def get_name_list():
     response = []
     for file in os.listdir(app.config["UPLOAD_FOLDER"]):
-        if not allowed_file(file):
+        try:
+            h, w, c = cv2.imread(os.path.join(app.config["UPLOAD_FOLDER"], file)).shape
+            response.append({"name": file, "width": w, "height": h})    
+        except:
             continue
-        h, w, c = cv2.imread(os.path.join(app.config["UPLOAD_FOLDER"], file)).shape
-        response.append({"name": file, "width": w, "height": h})
     return json.dumps(response)
 
 @app.route('/uploads/<name>')
