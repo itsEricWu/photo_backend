@@ -3,6 +3,8 @@ from flask import Flask, flash, request, redirect, url_for
 from werkzeug.utils import secure_filename
 from flask import send_from_directory, render_template
 import json
+import flask_cors as cors
+import cv2
 
 UPLOAD_FOLDER = 'uploads'
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -11,6 +13,7 @@ ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+cors.CORS(app)
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -33,7 +36,11 @@ def upload_file():
 
 @app.route('/get_name_list', methods=['GET'])
 def get_name_list():
-    return json.dumps(os.listdir(app.config["UPLOAD_FOLDER"]))
+    response = []
+    for file in os.listdir(app.config["UPLOAD_FOLDER"]):
+        h, w, c = cv2.imread(os.path.join(app.config["UPLOAD_FOLDER"], file)).shape
+        response.append({"name": file, "width": w, "height": h})
+    return json.dumps(response)
 
 @app.route('/uploads/<name>')
 def download_file(name):
